@@ -36,5 +36,5 @@ for($i=0; $i -lt $ipsUnorganized.Count; $i++){
 #8
 #count ips from number 8
 $ipsoftens = $ips | Where-object { $_.IP -ilike "10.*" }
-$counts = $ipsoftens | 
+$counts = $ipsoftens | Group-Object -Property IP
 $counts | Select-object Count, Name
