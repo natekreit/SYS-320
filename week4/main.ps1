@@ -3,8 +3,8 @@
 
 clear
 
-#$alogs = Aplog 'index.html' '200' 'firefox'
-#$alogs
+$alogs = Aplog 'index.html' '200' 'firefox'
+$alogs
 
 
 $records = ApacheLogs1
