@@ -42,26 +42,30 @@ for($i=0; $i -lt $FullTable.length; $i++){
     $Days = @()
 
     #If you see "M" -> Monday
-    if($FullTable[$i].$Days -ilike "M"){ $Days += "Monday" }
+    if($FullTable[$i].Days -ilike "*M*"){ $Days += "Monday" }
 
     #If you see "T" followed by T, W, or F -> Tuesday
-    if($FullTable[$i].$Days -ilike "*T[TWF]*"){ $Days += "Tuesday" }
+    if($FullTable[$i].Days -ilike "*T[W,F]*"){ $Days += "Tuesday" }
     #If you only see "T" -> Tuesday
-    ElseIf($FullTable[$i].$Days -ilike "T"){ $Days += "Tuesday" }
+    ElseIf($FullTable[$i].Days -ilike "T"){ $Days += "Tuesday" }
 
     #If you see "W" -> Wednesday
-    if($FullTable[$i].$Days -ilike "W"){ $Days += "Wednesday" }
+    if($FullTable[$i].Days -ilike "*W*"){ $Days += "Wednesday" }
 
     #If you see "TH" -> Thursday
-    if($FullTable[$i].$Days -ilike "TH"){ $Days += "Thursday" }
+    if($FullTable[$i].Days -ilike "*TH*"){ $Days += "Thursday" }
 
     #If you see "F" -> Friday
-    if($FullTable[$i].$Days -ilike "F"){ $Days += "Friday" }
+    if($FullTable[$i].Days -ilike "*F*"){ $Days += "Friday" }
 
     #Make the switch
-    $FullTable[$i].$Days = $Days
+    $FullTable[$i].Days = $Days
 }
 
 return $FullTable
 }
-daysTranslator
+
+$FullTable = gatherClasses
+$FullTable = daysTranslator $FullTable
+
+$FullTable
