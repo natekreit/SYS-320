@@ -13,8 +13,8 @@ $Prompt += "5 - Enable a User`n"
 $Prompt += "6 - Disable a User`n"
 $Prompt += "7 - Get Log-In Logs`n"
 $Prompt += "8 - Get Failed Log-In Logs`n"
-$Prompt += "9 - Exit`n"
-$Prompt += "10 - View vulnerable users`n"
+$Prompt += "9 - Users with more than 10 logon failures`n"
+$Prompt += "10 - Exit`n"
 
 
 
@@ -27,7 +27,7 @@ while($operation){
     $choice = Read-Host 
 
 
-    if($choice -eq 9){
+    if($choice -eq 10){
         Write-Host "Goodbye" | Out-String
         exit
         $operation = $false 
@@ -137,8 +137,9 @@ while($operation){
             Write-Host "User: $name not a real user."
         }
         else {
-            $userLogins = getLogInAndOffs 90
-            # TODO: Change the above line in a way that, the days 90 should be taken from the user
+            $days = Read-Host -Prompt "How many days back would you like to search back in the logs?"
+            $userLogins = getLogInAndOffs $days
+            # TODO: Change the above line in a way that, the days 90 should be taken from the user DONE
 
             Write-Host ($userLogins | Where-Object { $_.User -ilike "*$name"} | Format-Table | Out-String)
         }
@@ -156,8 +157,9 @@ while($operation){
             Write-Host "User: $name not a real user."
         }
         else {
-            $userLogins = getFailedLogins 90
-            # TODO: Change the above line in a way that, the days 90 should be taken from the user
+            $days = Read-Host -Prompt "How many days back would you like to search back in the logs?"
+            $userLogins = getFailedLogins $days
+            # TODO: Change the above line in a way that, the days 90 should be taken from the user DONE
 
             Write-Host ($userLogins | Where-Object { $_.User -ilike "*$name"} | Format-Table | Out-String)
         }
@@ -165,11 +167,11 @@ while($operation){
 
 
     # TODO: Create another choice "List at Risk Users" that
-    #              - Lists all the users with more than 10 failed logins in the last <User Given> days.  
-    #                (You might need to create some failed logins to test)
-    #              - Do not forget to update prompt and option numbers
+    #              - Lists all the users with more than 10 failed logins in the last <User Given> days.  DONE
+    #                (You might need to create some failed logins to test) DONE
+    #              - Do not forget to update prompt and option numbers DONE
 
-    elseif($choice -eq 10){
+    elseif($choice -eq 9){
         $time = Read-Host -Prompt "How many days back would you like to search back in the logs?"
         Write-Host "The following users have had at least 10 failed logins in $time days."
         vulnerableUsers $time
