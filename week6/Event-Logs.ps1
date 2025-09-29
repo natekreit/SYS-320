@@ -69,15 +69,15 @@ function getFailedLogins($timeBack){
 
 
 
-#This function looks for users with more than 10 failed logins
-function vulnerableUsers($timeBack){
-    $failedlogins = Get-EventLog -LogName security -After (Get-Date).AddDays("-"+"$timeBack") | Where { $_.InstanceID -eq "4625" }
-    $users = $failedlogins | Where-Object {$_ -match "Account Name:\s*(\S+)"} | `
-        ForEach-Object { ($_ -match "Account Name:\s*(\S+)") | Out-Null; $matches[1] }
 
-    $vulnUsers = $users | Group-Object | Where-Object {$_.Count -gt 9}
-    $vulnUsers | Format-Table Name,Count
+
+
+#This function looks for users with more than 10 failed logins
+function vulnerableUsers($time){
+    $failedlogins = getFailedLogins $time
     
+    Write-Host ($failedlogins | Group-Object -Property user | Where-Object {$_.Count -gt 9} | `
+        format-table -Property count, name | out-string)
 }
 
-vulnerableUsers 90
+#vulnerableUsers 90

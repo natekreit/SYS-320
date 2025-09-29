@@ -170,7 +170,9 @@ while($operation){
     #              - Do not forget to update prompt and option numbers
 
     elseif($choice -eq 10){
-        
+        $time = Read-Host -Prompt "How many days back would you like to search back in the logs?"
+        Write-Host "The following users have had at least 10 failed logins in $time days."
+        vulnerableUsers $time
 
     }
 
