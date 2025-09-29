@@ -1,4 +1,4 @@
-. (Join-Path C:\Users\champuser\SYS-320\week4 ApacheLogs1.ps1)
+. (Join-Path C:\Users\champuser\SYS-320\week4 Last10.ps1)
 . (Join-Path C:\Users\champuser\SYS-320\week6 Event-Logs.ps1)
 . (Join-Path C:\Users\champuser\SYS-320\week2 ProcessManagement1.ps1)
 
@@ -29,7 +29,7 @@ while($operation){
     }
 
     elseif($choice -eq 1){
-        Get-Eventlog -Newest 10 -LogName
+        lastLogs
     }
 
     elseif($choice -eq 2){
