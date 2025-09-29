@@ -73,3 +73,15 @@ function enableAUser($name){
    Enable-LocalUser $userToBeEnabled
    
 }
+
+#Create a function called checkUser in Users
+function checkUser($name){
+
+   $userExists = Get-LocalUser | Where-Object { $_.name -ilike $name }
+   if ($userExists.count -gt 0) {
+    return $true
+   }
+   else {
+    return $false
+   }
+}

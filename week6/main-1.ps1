@@ -14,6 +14,7 @@ $Prompt += "6 - Disable a User`n"
 $Prompt += "7 - Get Log-In Logs`n"
 $Prompt += "8 - Get Failed Log-In Logs`n"
 $Prompt += "9 - Exit`n"
+$Prompt += "10 - View vulnerable users`n"
 
 
 
@@ -75,12 +76,16 @@ while($operation){
     elseif($choice -eq 4){
 
         $name = Read-Host -Prompt "Please enter the username for the user to be removed"
-
-        # TODO: Check the given username with the checkUser function.
-
-        removeAUser $name
-
-        Write-Host "User: $name Removed." | Out-String
+        # TODO: Check the given username with the checkUser function. DONE
+        $nameValue = checkUser $name
+           
+        if ($nameValue -eq $false) {
+            Write-Host "User: $name not a real user."
+        }
+        else {
+            removeAUser $name
+            Write-Host "User: $name Removed." | Out-String
+        }
     }
 
 
@@ -90,11 +95,16 @@ while($operation){
 
         $name = Read-Host -Prompt "Please enter the username for the user to be enabled"
 
-        # TODO: Check the given username with the checkUser function.
-
-        enableAUser $name
-
-        Write-Host "User: $name Enabled." | Out-String
+        # TODO: Check the given username with the checkUser function. DONE
+        $nameValue = checkUser $name
+           
+        if ($nameValue -eq $false) {
+            Write-Host "User: $name not a real user."
+        }
+        else {
+            enableAUser $name
+            Write-Host "User: $name Enabled." | Out-String
+        }
     }
 
 
@@ -103,11 +113,16 @@ while($operation){
 
         $name = Read-Host -Prompt "Please enter the username for the user to be disabled"
 
-        # TODO: Check the given username with the checkUser function.
-
-        disableAUser $name
-
-        Write-Host "User: $name Disabled." | Out-String
+        # TODO: Check the given username with the checkUser function. DONE
+        $nameValue = checkUser $name
+           
+        if ($nameValue -eq $false) {
+            Write-Host "User: $name not a real user."
+        }
+        else {
+            disableAUser $name
+            Write-Host "User: $name Disabled." | Out-String
+        }
     }
 
 
@@ -115,12 +130,18 @@ while($operation){
 
         $name = Read-Host -Prompt "Please enter the username for the user logs"
 
-        # TODO: Check the given username with the checkUser function.
+        # TODO: Check the given username with the checkUser function. DONE
+        $nameValue = checkUser $name
+           
+        if ($nameValue -eq $false) {
+            Write-Host "User: $name not a real user."
+        }
+        else {
+            $userLogins = getLogInAndOffs 90
+            # TODO: Change the above line in a way that, the days 90 should be taken from the user
 
-        $userLogins = getLogInAndOffs 90
-        # TODO: Change the above line in a way that, the days 90 should be taken from the user
-
-        Write-Host ($userLogins | Where-Object { $_.User -ilike "*$name"} | Format-Table | Out-String)
+            Write-Host ($userLogins | Where-Object { $_.User -ilike "*$name"} | Format-Table | Out-String)
+        }
     }
 
 
@@ -128,12 +149,18 @@ while($operation){
 
         $name = Read-Host -Prompt "Please enter the username for the user's failed login logs"
 
-        # TODO: Check the given username with the checkUser function.
+        # TODO: Check the given username with the checkUser function. DONE
+        $nameValue = checkUser $name
+           
+        if ($nameValue -eq $false) {
+            Write-Host "User: $name not a real user."
+        }
+        else {
+            $userLogins = getFailedLogins 90
+            # TODO: Change the above line in a way that, the days 90 should be taken from the user
 
-        $userLogins = getFailedLogins 90
-        # TODO: Change the above line in a way that, the days 90 should be taken from the user
-
-        Write-Host ($userLogins | Where-Object { $_.User -ilike "*$name"} | Format-Table | Out-String)
+            Write-Host ($userLogins | Where-Object { $_.User -ilike "*$name"} | Format-Table | Out-String)
+        }
     }
 
 
@@ -141,11 +168,20 @@ while($operation){
     #              - Lists all the users with more than 10 failed logins in the last <User Given> days.  
     #                (You might need to create some failed logins to test)
     #              - Do not forget to update prompt and option numbers
+
+    elseif($choice -eq 10){
+        
+
+    }
+
+
     
     # TODO: If user enters anything other than listed choices, e.g. a number that is not in the menu   
-    #       or a character that should not be accepted. Give a proper message to the user and prompt again.
-    
-
+    #       or a character that should not be accepted. Give a proper message to the user and prompt again. DONE
+    else {
+        Write-Host "You entered $choice. This is not a valid option, try again."
+        $operation = $true
+    }
 }
 
 

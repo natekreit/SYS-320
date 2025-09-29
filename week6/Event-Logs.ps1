@@ -1,5 +1,7 @@
 ﻿. (Join-Path $PSScriptRoot String-Helper.ps1)
 
+clear
+
 
 <# ******************************
      Function Explaination
@@ -64,3 +66,18 @@ function getFailedLogins($timeBack){
 
     return $failedloginsTable
 } # End of function getFailedLogins
+
+
+
+#This function looks for users with more than 10 failed logins
+function vulnerableUsers($timeBack){
+    $failedlogins = Get-EventLog -LogName security -After (Get-Date).AddDays("-"+"$timeBack") | Where { $_.InstanceID -eq "4625" }
+    $users = $failedlogins | Where-Object {$_ -match "Account Name:\s*(\S+)"} | `
+        ForEach-Object { ($_ -match "Account Name:\s*(\S+)") | Out-Null; $matches[1] }
+
+    $vulnUsers = $users | Group-Object | Where-Object {$_.Count -gt 9}
+    $vulnUsers | Format-Table Name,Count
+    
+}
+
+vulnerableUsers 90
