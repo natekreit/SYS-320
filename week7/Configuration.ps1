@@ -4,8 +4,9 @@ clear
 
 function readConfiguration(){
 $conFile = (Get-Content C:\Users\champuser\SYS-320\week7\configuration.txt)
+$Table = @()
 $Table += [pscustomobject]@{
-    "Days" = $conFile[0]
+    "Days" = $conFile[0]; `
     "ExecutionTime" = $conFile[1]
 }
 return $Table
@@ -79,4 +80,3 @@ while($operation){
     }
 }
 }
-configurationMenu
